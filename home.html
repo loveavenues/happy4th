@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Monthsary</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=VT323&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: #ffffff; /* white background */
+  overflow-x: hidden;
+  color: #000000; 
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 100;
+  color: #000000;
+}
+
+/* Gift Box Container */
+.gift-box {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1350px;
+  margin: 20px auto;
+  border: 4px solid #000000;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  background-color: #f8f8f8;
+  overflow: visible;
+}
+
+/* Menu */
+.menu {
+    background-color: #e0e0e0; /* gray */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-right: 2px dotted #b0b0b0;
+    min-width: 150px;
+}
+.menu a {
+    text-decoration: none;
+    color: #333333; /* dark gray */
+    font-size: 18px;
+    transition: color 0.3s;
+}
+.menu a:hover { color: #000000; }
+
+/* Middle Column */
+.gift-header {
+    flex: 2 1 400px;
+    border-left: 2px dotted #b0b0b0;
+    border-right: 2px dotted #b0b0b0;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+}
+.title {
+  font-size: clamp(22px, 5vw, 36px);
+  font-weight: 700;
+  color: #000000;
+  text-shadow: 1px 1px #888888;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.small-title {
+  font-size: clamp(16px, 2vw, 20px);
+  color: #000000; 
+  border: 2px solid #888888; 
+  box-shadow: 2px 2px #cccccc; 
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+.gift-header img {
+  max-width: 80%;
+  height: auto;
+  border: 2px solid #888888;
+  box-shadow: 2px 2px #cccccc;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+#envelopeBtn {
+  font-size: 60px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-top: 10px;
+  transition: transform 0.3s;
+  position: relative;
+}
+#envelopeBtn:hover { transform: scale(1.2); }
+.speech-bubble {
+  position: absolute;
+  top: -50px;
+  background: #ffffff;
+  border: 2px solid #888888;
+  color: #000000;
+  box-shadow: 2px 2px #cccccc;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+
+/* Sidebar */
+.sidebar {
+    flex: 1 1 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+    overflow-y: auto;
+    max-height: calc(100vh - 40px);
+}
+.sidebar .square-feature {
+  flex: none;  /* prevent shrinking */
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s;
+  width: 100%;
+  flex: none;
+  background-color: #f8f8f8;
+  border: 2px solid #888888;
+  box-shadow: 2px 2px #cccccc;
+}
+.square-feature:hover { transform: scale(1.02); }
+.square-feature h3 { font-size: 18px; color: #000000; margin-bottom: 8px; }
+.square-feature p { font-size: 16px; color: #5a3e36; margin-bottom: 8px; }
+/* Cute Buttons */
+.square-feature button,
+#nextReason {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #555555, #222222); /* dark gradient for buttons */
+  color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+.square-feature button:hover,
+#nextReason:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+/* Heart sparkle effect on hover */
+#nextReason::after {
+  content: '💖';
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  font-size: 16px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+#nextReason:hover::after {
+  right: 10px;
+  top: -10px;
+  opacity: 1;
+}
+
+/* Cute Modal */
+.modal-content {
+  border-radius: 20px;
+  padding: 25px;
+  max-height: 80vh;
+  text-align: center;
+  animation: pop 0.5s ease, float 3s infinite alternate;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 3px dashed #888888;
+  color: #000000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Reasons Text Animation */
+#reason {
+  font-size: 1.2rem;
+  margin: 20px 0;
+  min-height: 120px;
+  line-height: 1.5;
+  color: #9b1c75;
+  font-weight: 500;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Modal Animations */
+@keyframes pop { 
+  from { transform: scale(0.7); opacity: 0; } 
+  to { transform: scale(1); opacity: 1; } 
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-5px); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Close Button Cute */
+.close {
+  font-size: 26px;
+  font-weight: bold;
+  color: #000000;
+  text-shadow: 1px 1px 0 #fff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.close:hover { transform: rotate(90deg) scale(1.2); color: #444444; }
+
+
+/* Music Player */
+#player { width: 100%; border-radius: 12px; border: 2px solid #888888; box-shadow: 2px 2px #cccccc; overflow: hidden; }
+#album-art img { width: 100%; border-bottom: 2px solid #ffb6c1; }
+#player-controls { display: flex; justify-content: center; gap: 15px; padding: 8px; }
+#player-controls .button { font-size: 20px; color: #000000; }
+#player-controls .button:hover { color: #444444; }
+#track-name, #album-name { padding: 6px; font-size: 14px; }
+
+/* Modal */
+.modal { display: none; position: fixed; z-index: 10; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; }
+.modal-content { background: #fff; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px; max-height: 80vh; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); animation: pop 0.5s ease; overflow-y: auto; }
+.modal-content h2 { color: #010101; margin-bottom: 12px; }
+.modal-content p { font-size: 16px; line-height: 1.4; }
+.close { font-size: 22px; cursor: pointer; }
+.close:hover { color: #8c8c8c; }
+
+/* Coffee Modal Styles */
+:root {
+    --main-bg-color: #d6b9a4;
+    --cup-color: #474747;
+    --cup-width: 30vw;
+    --cup-height: 24vw;
+    --cup-handle-width: 5vw;
+    --cup-handle-height: calc(2 * var(--cup-handle-width));
+    --cup-border-width: 2vw;
+    --cup-inside-width: calc(var(--cup-width) - var(--cup-border-width));
+    --cup-inside-height: calc(var(--cup-height) - var(--cup-border-width));
+    --plate-width: 25vw;
+    --plate-height: 2vw;
+    --coffee-bottom: 80%;
+    --water-bottom: 0;
+    --milk-bottom: 0;
+    --liquor-bottom: 0;
+    --whipped_cream-bottom: 0;
+    --steamed_milk-bottom: 0;
+    --milk_foam-bottom: 0;
+    --chocolate-bottom: 0;
+    --coffee-color: #3c302f;
+    --water-color: #b1dce2;
+    --milk-color: #f0ebe5;
+    --liquor-color: #fc8626;
+    --whipped_cream-color: #fceecb;
+    --milk_foam-color: #fceecb;
+    --steamed_milk-color: #ffd7b3;
+    --chocolate-color: #391e09;
+  }
+  .coffee-container { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .coffee_name { font-size: 4vw; margin-bottom: 15px; color:#f1faee; }
+  .cup { width: var(--cup-width); height: var(--cup-height); border-radius: 0 0 10vw 10vw; position: relative; background-color: var(--cup-color); margin-bottom:10px; }
+  //**.cup::after { content:""; position:absolute; top:10%; left:calc(100%-1vw); width:var(--cup-handle-width); height:var(--cup-handle-height); border: var(--cup-border-width) solid var(--cup-color); border-radius:50% 30%; }**/
+  .plate { width: var(--plate-width); height: var(--plate-height); background: var(--cup-color); border-radius: 1vw; margin-top:5px; }
+  .filling { position: absolute; left: calc(var(--cup-border-width)/2); bottom: calc(var(--cup-border-width)/2); width: var(--cup-inside-width); height: var(--cup-inside-height); overflow: hidden; border-radius:0 0 10vw 10vw; background-color: var(--main-bg-color); display:flex; flex-direction:column-reverse; }
+  .filling div { width:100%; transition: all 1s ease; text-align:center; color:#817f75; display:flex; align-items:flex-start; justify-content:center; font-size:3vw; box-sizing:border-box; height:0; overflow:hidden; }
+  .filling.reset div { height:0; }
+  .options { display:grid; grid-gap:10px; margin-bottom:15px; }
+  .options button { padding:8px 12px; border-radius:10px; border:2px solid #a67a60; cursor:pointer; background:rgba(214,217,227,0.6); }
+  .options button:hover { border-width:4px; background:rgba(255,255,255,0.6); }
+  .options .selected { border-width:4px; background:rgba(255,255,255,0.8); }
+
+/* Animations */
+@keyframes pop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gift-box { flex-direction: column; }
+  .menu { flex-direction: row; overflow-x: auto; border-bottom: 2px dotted #ffb6c1; border-right: none; }
+  .sidebar { flex-direction: column; width: 100%; max-height: none; overflow: visible; }
+  .sidebar .square-feature { width: 100%; min-width: auto; }
+}
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .menu { display: none; position: absolute; top: 0; left: 0; width: 70%; height: 100%; z-index: 99; flex-direction: column; background-color: #ffe4ec; padding-top: 60px; border-right: none; border-bottom: none; }
+  .menu.show { display: flex; }
+  .gift-header img { max-width: 95%; }
+  .small-title { height: auto; padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hamburger" id="hamburger">☰</div>
+
+<div class="gift-box">
+  <!-- Left Menu -->
+  <div class="menu" id="menu">
+    <a href="#">💌 Message</a>
+    <a href="#">🎵 Music Player</a>
+    <a href="#">🎮 Reasons Why</a>
+    <a href="#">❓ Quizzes</a>
+  </div>
+
+  <!-- Middle Column -->
+  <div class="gift-header">
+    <div class="title">Happy Monthsary!</div>
+    <div class="small-title">Our Love Corner 💕</div>
+    <img src="./kyot.JPG" alt="Love Image">
+    <div style="position: relative; display: inline-block; margin-top: 20px;">
+      <div class="speech-bubble">Open the envelope!</div>
+      <button id="envelopeBtn">💌</button>
+    </div>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div class="sidebar">
+    <div class="square-feature">
+      <h3>🎵 Our Songs</h3>
+      <div id="player">
+        <div id="album-art"><img id="album-img" src="" /></div>
+        <div id="track-name"></div>
+        <div id="album-name"></div>
+        <div id="progress-container"><div id="progress"></div></div>
+        <div id="timer"><span id="current-time">0:00</span><span id="duration">0:00</span></div>
+        <div id="player-controls">
+          <div class="button" id="play-previous"><i class="fas fa-backward"></i></div>
+          <div class="button" id="play-pause-button"><i class="fas fa-play"></i></div>
+          <div class="button" id="play-next"><i class="fas fa-forward"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="square-feature">
+        <h3>💖 Reasons Why</h3>
+        <p>Most of the Reasons Why I Love You</p>
+        <button id="reasonsBtn">View Now</button>
+      </div>
+
+      <div class="square-feature">
+        <h3>❓ Coffee Type</h3>
+        <p>What's your Coffee Type</p>
+        <button id="clawBtn">Play</button>
+      </div>
+      
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="messageModal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h2>💌 Special Message</h2>
+    <p>Happy 4th Monthsary!
+
+        🖤
+        
+        My baby! We’ve reached our 4th month together, and what a ride it has been. Not every day is sunshine and rainbows, some days we argue and cry, but regardless of everything, we always make it through. A lot has happened these past few months, and against all odds, you still chose to stay. For that, I’ll forever be grateful that you didn’t give up on our love.
+        
+        I know I’m not perfect. I’m still learning how to love you in the way that you need. I’m sorry if inaaway kita, naglalambing lang ako, but it ends up turning into away because I’ve been more emotional lately. I’ve said this many times already, but thank you for the patience na binibigay mo sakin. I’m not used to this kind of vulnerability, yet with you, It flows naturally.
+        
+        I appreciate you so much, baby. To you, it may seem like you’re not doing much, but I want you to know that everything you do is more than enough. Managing work, our relationship, and your personal life is not easy, but please know that you’re doing a great job. Calling me just to make lambing and para hindi ako mag overthink, it may feel small to you, but to me, it means the world. You’ve been so kind to me, giving me grace, reassuring me every day when I’m spouting nonsense, and making me feel so much love.
+        
+        As I’ve said before, the way your mind works has made me see the world so differently. You make sure that I eat and that I’m feeling well. I haven’t been feeling well lately, so I’m sorry if this letter comes a little late, but I needed to tell you this, you’ve been everything I needed and more.
+        
+        Sometimes, I wonder if I truly deserve someone as amazing as you. Someone who holds me gently and softly, someone who sees my flaws and still thinks I’m lovable. I want to be the person that you deserve. I hope I’m not making things harder for you. More than anything, I hope I can be your peace when your days are filled with chaos and exhaustion. I want to show you the same love that you’ve so kindly shown me. I’m improving each day, and once again, thank you for your endless patience.
+        
+        I’ll be your shoulder to cry on, your partner, and your best friend. I admit, I get scared that one day you might get tired and leave. I don’t ever want that to happen, but I also know I can’t force you to stay. Deep down, I know madami akong kakulangan, a lot of things na hindi ko kaya ibigay, but I’m working on myself and pushing forward because I want us. I just hope it will always be enough to withstand the challenges na darating satin.
+        
+        4 months, and here I am, still so sure that I’ll love you for even more. I look forward to spending my gray-haired years with you, and of course, baby wo ai ni. I’m more than happy knowing that I get to share my life with you.
+        
+        Thank you for choosing to love me.
+        I love you, more than you’ll ever know.
+        
+        •  🤍</p>
+  </div>
+</div>
+
+<!-- Modal for Reasons Why -->
+<div class="modal" id="reasonsModal">
+    <div class="modal-content" style="max-width:600px;">
+      <span class="close" id="closeReasons">&times;</span>
+      <h2>💖 52 Reasons Why I Love You</h2>
+      <div id="reason" style="min-height:120px; font-size:1.2rem; margin: 20px 0;">Loading reasons...</div>
+      <button id="nextReason">Show me another reason ❤️</button>
+    </div>
+  </div>
+
+<!-- Coffee Modal -->
+<div class="modal" id="coffeeModal">
+    <div class="modal-content" style="max-width:600px;">
+      <span class="close" id="closeCoffee">&times;</span>
+      <div class="coffee-container">
+        <h2 class="coffee_name">Choose your coffee</h2>
+        <div class="options">
+          <button id="americano">Americano</button>
+          <button id="au_lait">Au lait</button>
+          <button id="capuccino">Capuccino</button>
+          <button id="corretto">Corretto</button>
+          <button id="espresso">Espresso</button>
+          <button id="latte">Latte</button>
+          <button id="lungo">Lungo</button>
+          <button id="macchiato">Macchiato</button>
+          <button id="mocha">Mocha</button>
+          <button id="ristretto">Ristretto</button>
+        </div>
+        <div class="cup">
+            <div class="filling reset">
+                <div class="coffee">Acts of Service</div>
+                <div class="water">Words of Affirmation</div>
+                <div class="milk">Physical Touch</div>
+                <div class="liquor">Quality Time</div>
+                <div class="whipped_cream">Receiving Gifts</div>
+                <div class="milk_foam">Hugs</div>
+                <div class="steamed_milk">Kisses</div>
+                <div class="chocolate">Cuddles</div>
+              </div>
+          <div class="plate"></div>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://hammerjs.github.io/dist/hammer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-hammerjs@2.0.0/jquery.hammer.min.js"></script>
+<script>
+
+    const reasons = [
+    "You make me laugh even when I feel like crying.",
+    "Your kindness spreads warmth wherever you go.",
+    "You listen deeply and make me feel truly heard.",
+    "Your smile lights up my darkest days.",
+    "You encourage me to pursue my dreams without fear.",
+    "Your hugs give me a sense of safety and peace.",
+    "I admire your unwavering dedication to what you love.",
+    "You make me feel cherished and valued every day.",
+    "Your curiosity about the world inspires me.",
+    "You are not just my love, but my truest friend.",
+    "You remember the smallest details about what matters to me.",
+    "You always find a way to lift my spirits.",
+    "I respect your honesty and openness in our relationship.",
+    "Your patience with me teaches me grace.",
+    "You challenge me to become a better version of myself.",
+    "Adventuring with you makes every moment unforgettable.",
+    "Your sense of humor brings joy to the mundane.",
+    "I love how you accept all my flaws with love.",
+    "Your creativity brings color and wonder into our life.",
+    "You turn ordinary moments into precious memories.",
+    "I'm grateful for the way you support me through challenges.",
+    "You have a generous heart that touches everyone you meet.",
+    "Your presence alone feels like home to me.",
+    "You always think of others before yourself.",
+    "I appreciate how honest and real you are with me.",
+    "You inspire me to keep chasing my passions.",
+    "You brighten my life even on the cloudiest days.",
+    "Your loyalty is a foundation I can always trust.",
+    "The way you look at me makes me feel special.",
+    "You add so much color and joy to my world.",
+    "Your positive energy is truly contagious.",
+    "I admire your dedication and strong work ethic.",
+    "You make me feel beautiful, inside and out.",
+    "I treasure the meaningful conversations we share.",
+    "You are my steady rock and comfort in tough times.",
+    "Your words always know how to touch my heart.",
+    "Your adventurous spirit makes life exciting.",
+    "You bring out the very best in me every day.",
+    "I cherish every moment that we spend together.",
+    "Your embrace feels like the safest place in the world.",
+    "You make everyday life feel fun and magical.",
+    "I adore all your little quirks that make you unique.",
+    "You always find ways to make me smile.",
+    "Your optimism lifts me up when I’m down.",
+    "I’m so proud to call you mine.",
+    "You are my greatest blessing and joy.",
+    "I love how deeply you care for others.",
+    "There is no one else like you in this world.",
+    "You are my forever and always.",
+    "I feel complete sharing my life with you.",
+    "You make me believe in true love again.",
+    "You complete me in ways I never imagined.",
+    "My love for you grows stronger every single day."
+  ];
+  
+  let currentIndex = 0;
+  const reasonEl = document.getElementById('reason');
+  const nextReasonBtn = document.getElementById('nextReason');
+  
+  // Show reason
+  function showReason(index) {
+    reasonEl.textContent = reasons[index];
+  }
+  
+  // Modal logic
+  const reasonsModal = document.getElementById('reasonsModal');
+  document.getElementById('reasonsBtn').onclick = () => reasonsModal.style.display = 'flex';
+  document.getElementById('closeReasons').onclick = () => reasonsModal.style.display = 'none';
+  window.onclick = (e) => { if(e.target === reasonsModal) reasonsModal.style.display = 'none'; }
+  
+  // Next reason button
+  nextReasonBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % reasons.length;
+    showReason(currentIndex);
+  });
+  
+  // Show first reason
+  showReason(currentIndex);
+
+const hamburger = document.getElementById("hamburger");
+const menu = document.getElementById("menu");
+hamburger.addEventListener("click", () => menu.classList.toggle("show"));
+
+const modal = document.getElementById("messageModal");
+const btn = document.getElementById("envelopeBtn");
+const closeBtn = document.getElementById("closeModal");
+btn.onclick = () => modal.style.display = "flex";
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = (e) => { if(e.target === modal) modal.style.display = "none"; }
+
+// Music Player
+const playlist = [
+  { name: "Tadhana", album: "Up Dharma Down", src: "./tadhana.mp3", img: "./tadhana.jpeg" },
+  { name: "Tadhana", album: "Up Dharma Down", src: "./tadhana.mp3", img: "./tadhana.jpeg" }
+];
+let currentTrack = 0, isPlaying = false;
+const audio = new Audio();
+const trackName = document.getElementById("track-name");
+const albumName = document.getElementById("album-name");
+const albumImg = document.getElementById("album-img");
+const playPauseBtn = document.getElementById("play-pause-button");
+const progressContainer = document.getElementById("progress-container");
+const progress = document.getElementById("progress");
+const currentTimeEl = document.getElementById("current-time");
+const durationEl = document.getElementById("duration");
+
+function loadTrack(index) {
+  const track = playlist[index];
+  audio.src = track.src;
+  trackName.textContent = track.name;
+  albumName.textContent = track.album;
+  albumImg.src = track.img;
+}
+function playTrack() {
+  audio.play().then(() => { isPlaying = true; playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>'; })
+  .catch(err => { console.log("Autoplay blocked until user interacts:", err); });
+}
+function pauseTrack() { audio.pause(); isPlaying = false; playPauseBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+playPauseBtn.addEventListener("click", () => { isPlaying ? pauseTrack() : playTrack(); });
+document.getElementById("play-next").addEventListener("click", () => { currentTrack = (currentTrack + 1) % playlist.length; loadTrack(currentTrack); playTrack(); });
+document.getElementById("play-previous").addEventListener("click", () => { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; loadTrack(currentTrack); playTrack(); });
+
+audio.addEventListener("timeupdate", () => {
+  const { currentTime, duration } = audio;
+  if (duration) {
+    progress.style.width = `${(currentTime / duration) * 100}%`;
+    currentTimeEl.textContent = formatTime(currentTime);
+    durationEl.textContent = formatTime(duration);
+  }
+});
+progressContainer.addEventListener("click", (e) => { const width = progressContainer.clientWidth; const clickX = e.offsetX; audio.currentTime = (clickX / width) * audio.duration; });
+function formatTime(sec) { const minutes = Math.floor(sec / 60); const seconds = Math.floor(sec % 60); return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`; }
+
+loadTrack(currentTrack);
+window.addEventListener("load", playTrack);
+
+// Coffee Modal
+const coffeeModal = document.getElementById("coffeeModal");
+const clawBtn = document.getElementById("clawBtn");
+const closeCoffee = document.getElementById("closeCoffee");
+clawBtn.onclick = () => coffeeModal.style.display = "flex";
+closeCoffee.onclick = () => coffeeModal.style.display = "none";
+
+// Coffee Layer Animation
+const filling = document.querySelector(".filling");
+const coffeeLayers = {
+  americano: { coffee:80, water:20 },
+  au_lait: { coffee:60, milk:40 },
+  capuccino: { coffee:50, milk:30, milk_foam:20 },
+  corretto: { coffee:70, liquor:30 },
+  espresso: { coffee:100 },
+  latte: { coffee:40, steamed_milk:40, milk_foam:20 },
+  lungo: { coffee:90, water:10 },
+  macchiato: { coffee:80, milk_foam:20 },
+  mocha: { coffee:50, chocolate:30, milk:20 },
+  ristretto: { coffee:90, water:10 }
+};
+
+function resetFilling() {
+  filling.classList.add('reset');
+  filling.querySelectorAll('div').forEach(d => d.style.height='0');
+  setTimeout(() => filling.classList.remove('reset'), 50);
+}
+
+Object.keys(coffeeLayers).forEach(name => {
+  document.getElementById(name).addEventListener('click', () => {
+    resetFilling();
+    const layers = coffeeLayers[name];
+    let sum = 0;
+    Object.keys(layers).forEach(key => sum += layers[key]);
+    let bottom = 0;
+    Object.keys(layers).forEach(key => {
+      const h = layers[key] + '%';
+      const div = filling.querySelector(`.${key}`);
+      div.style.height = h;
+      div.style.backgroundColor = getComputedStyle(document.documentElement)
+        .getPropertyValue(`--${key}-color`);
+      bottom += layers[key];
+    });
+  });
+});
+
+// Close modals when clicking outside
+window.onclick = function(e) {
+  if(e.target === modal) modal.style.display='none';
+  if(e.target === reasonsModal) reasonsModal.style.display='none';
+  if(e.target === coffeeModal) coffeeModal.style.display='none';
+}
+</script>
+</body>
+</html>
